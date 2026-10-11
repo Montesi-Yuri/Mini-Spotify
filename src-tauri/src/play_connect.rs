@@ -1,5 +1,7 @@
 use std::sync::Mutex;
 
+use crate::player_event;
+
 use librespot_connect::{ConnectConfig, LoadRequest, LoadRequestOptions, Spirc};
 use librespot_core::{authentication::Credentials, session::Session, Error};
 use librespot_playback::{
@@ -15,7 +17,11 @@ pub struct ConnectState(pub Mutex<Option<Spirc>>);
 
 /// Starts the connect device (connects the session) and returns the Spirc handle.
 /// The Spirc task is spawned in the background; commands are sent via the handle.
-pub async fn start(session: Session, credentials: Credentials) -> Result<Spirc, Error> {
+pub async fn start(
+    session: Session,
+    credentials: Credentials,
+    app: tauri::AppHandle,
+) -> Result<Spirc, Error> {
     let sink_builder = audio_backend::find(None).unwrap();
     let mixer_builder = mixer::find(None).unwrap();
     let audio_format = AudioFormat::default();
@@ -27,6 +33,9 @@ pub async fn start(session: Session, credentials: Credentials) -> Result<Spirc, 
         mixer.get_soft_volume(),
         move || sink_builder(None, audio_format),
     );
+
+    // Must be taken before `player` is moved into Spirc.
+    player_event::spawn(player.get_player_event_channel(), app);
 
     let connect_config = ConnectConfig {
         name: "MiniWidget".to_string(),
