@@ -129,11 +129,18 @@ const VolumeControl = () => {
 const TrackInfo = ({ track }: { track?: Track }) => {
     return (
         <div className="track-info" data-tauri-drag-region>
-            {track?.artUrl && <img className="track-art" src={track.artUrl} alt="" />}
-            {track && (
+            {track?.artUrl
+                ? <img className="track-art" src={track.artUrl} alt="" />
+                : <div className="track-art skeleton" />}
+            {track ? (
                 <div className="track-text">
                     <div className="track-title">{track.title}</div>
                     <div className="track-artist">{track.artist}</div>
+                </div>
+            ) : (
+                <div className="track-text">
+                    <div className="skeleton skeleton-title" />
+                    <div className="skeleton skeleton-artist" />
                 </div>
             )}
         </div>
