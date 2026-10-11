@@ -13,7 +13,6 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .manage(play_connect::ConnectState::default())
         .invoke_handler(tauri::generate_handler![
-            greet,
             play_connect::play_uri,
             play_connect::play_pause,
             play_connect::next,
