@@ -9,28 +9,13 @@ use crate::layout::{self, Layout};
 
 const TOGGLE: &str = "toggle";
 const AUTOSTART: &str = "autostart";
+const FIT_WIDTH: &str = "fit-width";
 const QUIT: &str = "quit";
 
 /// Checkable items, kept so their checkmarks follow changes made elsewhere.
 struct TrayItems {
     layouts: Vec<(Layout, CheckMenuItem<tauri::Wry>)>,
     autostart: CheckMenuItem<tauri::Wry>,
-}
-
-fn layout_id(layout: Layout) -> &'static str {
-    match layout {
-        Layout::Full => "layout-full",
-        Layout::Compact => "layout-compact",
-        Layout::ExtraCompact => "layout-extra-compact",
-    }
-}
-
-fn layout_label(layout: Layout) -> &'static str {
-    match layout {
-        Layout::Full => "Full",
-        Layout::Compact => "Compact",
-        Layout::ExtraCompact => "Extra-compact",
-    }
 }
 
 pub fn init(app: &AppHandle) -> tauri::Result<()> {
@@ -40,10 +25,11 @@ pub fn init(app: &AppHandle) -> tauri::Result<()> {
     let items: Vec<_> = Layout::ALL
         .iter()
         .map(|&l| {
-            CheckMenuItem::with_id(app, layout_id(l), layout_label(l), true, l == current, None::<&str>)
+            CheckMenuItem::with_id(app, l.id(), l.label(), true, l == current, None::<&str>)
                 .map(|item| (l, item))
         })
         .collect::<tauri::Result<_>>()?;
+    let fit_width = MenuItem::with_id(app, FIT_WIDTH, "Fit width to screen", true, None::<&str>)?;
     let autostart_on = app.autolaunch().is_enabled().unwrap_or(false);
     let autostart = CheckMenuItem::with_id(app, AUTOSTART, "Start at login", true, autostart_on, None::<&str>)?;
     let quit = MenuItem::with_id(app, QUIT, "Quit", true, None::<&str>)?;
@@ -55,6 +41,7 @@ pub fn init(app: &AppHandle) -> tauri::Result<()> {
     for (_, item) in &items {
         menu.append(item)?;
     }
+    menu.append(&fit_width)?;
     menu.append(&sep()?)?;
     menu.append(&autostart)?;
     menu.append(&quit)?;
@@ -85,12 +72,13 @@ pub fn init(app: &AppHandle) -> tauri::Result<()> {
 
 fn on_menu_event(app: &AppHandle, event: MenuEvent) {
     let id = event.id().as_ref();
-    if let Some(layout) = Layout::ALL.into_iter().find(|&l| layout_id(l) == id) {
+    if let Some(layout) = Layout::ALL.into_iter().find(|&l| l.id() == id) {
         layout::apply(app, layout);
         return;
     }
     match id {
         TOGGLE => toggle_visibility(app),
+        FIT_WIDTH => layout::fit_to_screen(app),
         AUTOSTART => {
             let autolaunch = app.autolaunch();
             let result = if autolaunch.is_enabled().unwrap_or(false) {

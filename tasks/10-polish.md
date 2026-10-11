@@ -3,10 +3,10 @@
 **Goal:** make it nice to live with. Tick sub-items individually; none is required for a working app.
 
 ## Checklist
-- [x] **Remember position:** save the window position on move/exit, restore on start (`tauri-plugin-window-state` does this). Position only, clamped to a visible monitor on start.
+- [x] **Remember position:** save the window position on move/exit, restore on start (`tauri-plugin-window-state` does this). Position and size, clamped to a visible monitor on start; docks to screen edges when dropped within 16px.
 - [x] **Global media hotkeys:** `tauri-plugin-global-shortcut` for play/pause, next, prev.
 - [x] **Autostart:** `tauri-plugin-autostart`, with a tray toggle.
-- [x] **Compact mode:** Full / Compact / Extra-compact (art + play/pause only) layouts, chosen from the tray or cycled by double-click. Persisted in `settings.json`.
+- [x] **Compact mode:** Full / Compact / Extra-compact (art + play/pause only) layouts, chosen by window width (resizable horizontally, height fixed). Tray presets, double-click cycle and "Fit width to screen" set the width.
 - [ ] **Later / optional:** search and playlists. Deferred to their own task.
 
 ## You're done when

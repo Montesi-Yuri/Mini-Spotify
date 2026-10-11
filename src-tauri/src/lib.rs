@@ -11,10 +11,10 @@ mod tray;
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        // Position only: size is owned by the layout, visibility by the tray.
+        // Position and size; visibility is owned by the tray.
         .plugin(
             tauri_plugin_window_state::Builder::default()
-                .with_state_flags(tauri_plugin_window_state::StateFlags::POSITION)
+                .with_state_flags(tauri_plugin_window_state::StateFlags::POSITION | tauri_plugin_window_state::StateFlags::SIZE)
                 .build(),
         )
         .plugin(tauri_plugin_global_shortcut::Builder::new().build())
