@@ -17,9 +17,9 @@ const formatTime = (ms: number) => {
 const Player = ({ track }: { track?: Track }) => {
     const isPlaying = Boolean(track?.playing)
     return (
-        <div className="player">
+        <div className="player" data-tauri-drag-region>
             <TrackInfo track={track} />
-            <div className="player-center">
+            <div className="player-center" data-tauri-drag-region>
                 <PlayerControls isPlaying={isPlaying} />
                 <ProgressBar track={track} />
             </div>
@@ -128,7 +128,7 @@ const VolumeControl = () => {
 
 const TrackInfo = ({ track }: { track?: Track }) => {
     return (
-        <div className="track-info">
+        <div className="track-info" data-tauri-drag-region>
             {track?.artUrl && <img className="track-art" src={track.artUrl} alt="" />}
             {track && (
                 <div className="track-text">
