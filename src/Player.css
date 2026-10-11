@@ -4,7 +4,7 @@
   align-items: center;
   gap: 16px;
   padding: 8px 16px;
-  /* background: #000; */
+  background: #000;
   color: #fff;
   text-align: left;
 }
@@ -24,8 +24,8 @@
 }
 
 .track-art {
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   border-radius: 4px;
   object-fit: cover;
 }
@@ -175,4 +175,68 @@
 
 .slider:hover::-webkit-slider-thumb {
   opacity: 1;
+}
+
+/* Compact layout: cover on the left, title/artist above the controls */
+@media (max-width: 480px) {
+  .player {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    column-gap: 12px;
+    row-gap: 4px;
+  }
+
+  .track-info {
+    display: contents;
+  }
+
+  .track-art {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+
+  .track-text {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .player-center {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .progress,
+  .volume {
+    display: none;
+  }
+}
+
+/* Never show scrollbars */
+html,
+body {
+  overflow: hidden;
+}
+
+* {
+  scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Fill the whole widget with the black background */
+html,
+body,
+#root,
+.container {
+  height: 100%;
+  margin: 0;
+  background: #000;
+}
+
+.player {
+  box-sizing: border-box;
+  height: 100%;
+  background: #000;
 }
