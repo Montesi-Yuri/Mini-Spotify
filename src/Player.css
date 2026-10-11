@@ -248,9 +248,20 @@
 
   .player .play-button,
   .player .play-button:hover {
-    pointer-events: auto;
     padding: 8px;
     background: rgba(0, 0, 0, 0.55);
+  }
+
+  /* Play/pause is only shown (and clickable) while hovering the window */
+  .player .play-button {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s;
+  }
+
+  .player:hover .play-button {
+    opacity: 1;
+    pointer-events: auto;
   }
 }
 
