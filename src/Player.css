@@ -211,6 +211,49 @@
   }
 }
 
+/* Extra-compact layout: cover fills the widget with play/pause on top.
+   Matches the 100x100 window in layout.rs. */
+@media (max-width: 160px) {
+  .player {
+    position: relative;
+    display: block;
+    padding: 0;
+  }
+
+  .track-info,
+  .player-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .track-art {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+
+  .track-text,
+  .progress,
+  .player-controls .icon-button:not(.play-button) {
+    display: none;
+  }
+
+  /* Only the button takes clicks; the rest of the cover stays draggable */
+  .player-center {
+    pointer-events: none;
+  }
+
+  .player .play-button,
+  .player .play-button:hover {
+    pointer-events: auto;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.55);
+  }
+}
+
 /* Never show scrollbars */
 html,
 body {

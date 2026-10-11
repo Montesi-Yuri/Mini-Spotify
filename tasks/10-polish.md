@@ -3,11 +3,11 @@
 **Goal:** make it nice to live with. Tick sub-items individually; none is required for a working app.
 
 ## Checklist
-- [ ] **Remember position:** save the window position on move/exit, restore on start (`tauri-plugin-window-state` does this).
-- [ ] **Global media hotkeys:** `tauri-plugin-global-shortcut` for play/pause, next, prev.
-- [ ] **Autostart:** `tauri-plugin-autostart`, with a tray toggle.
-- [ ] **Compact mode:** a smaller layout (e.g. art + play/pause only), toggled from the tray or a double-click.
-- [ ] **Later / optional:** search and playlists.
+- [x] **Remember position:** save the window position on move/exit, restore on start (`tauri-plugin-window-state` does this). Position only, clamped to a visible monitor on start.
+- [x] **Global media hotkeys:** `tauri-plugin-global-shortcut` for play/pause, next, prev.
+- [x] **Autostart:** `tauri-plugin-autostart`, with a tray toggle.
+- [x] **Compact mode:** Full / Compact / Extra-compact (art + play/pause only) layouts, chosen from the tray or cycled by double-click. Persisted in `settings.json`.
+- [ ] **Later / optional:** search and playlists. Deferred to their own task.
 
 ## You're done when
 Restarting the app puts the widget back where you left it, and the hotkeys work while another app has focus.
